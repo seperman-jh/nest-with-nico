@@ -3,17 +3,13 @@ import {Body, Controller, Delete, Get, Param, Patch, Post, Query} from '@nestjs/
 @Controller('movies')
 export class MoviesController {
 
-    @Get("search")
-    getSearchMovies(@Body() FilteredData, @Query("source") QueryStringData:string){
-        return {FilteredData, QueryStringData }
-    }
+
 
 
     @Get("/:id")
-    getMovies(): string{
+    getMovie(): string{
         return "123";
     }
-
 
 
     @Post()
@@ -26,9 +22,16 @@ export class MoviesController {
         return `patch a "${id}" movie`;
     }
 
+
+
     @Delete(":/id")
     deleteMovie(@Param("id") id : string){
         return `delete a "${id}" movie`;
+    }
+
+    @Get("search")
+    getSearchMovies(@Body() FilteredData, @Query("source") QueryStringData:string){
+        return {FilteredData, QueryStringData }
     }
 
 
