@@ -4,12 +4,19 @@ import {Podcast} from "./entities/podcast.entities";
 @Injectable()
 export class PodcastsService {
 
-    private podcast : Podcast[] = [];
+    private podcasts : Podcast[] = [];
 
     GetAllPodCasts() : Podcast[] {
-        return this.podcast;
+        return this.podcasts;
     }
 
+
+    CreatePodCast(FormData){
+        return this.podcasts.push({
+          id : this.podcasts.length + 1,
+            ...FormData
+        })
+    }
 
 
 

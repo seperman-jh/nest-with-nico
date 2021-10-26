@@ -12,10 +12,17 @@ export class PodcastsController {
         return this.podcastsService.GetAllPodCasts();
     }
 
+    @Get("/:id")
+    GetPodcast(): Podcast[] {
+        return [];
+    }
+
     @Post()
     CreatePodCast(@Body() FormData)  {
-        return "";
+        return this.podcastsService.CreatePodCast(FormData);
     }
+
+
 
     @Delete("/:id")
     DeletePodCast() : string {
