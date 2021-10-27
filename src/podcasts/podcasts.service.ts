@@ -1,10 +1,13 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {Podcast} from "./entities/podcast.entities";
+import {Episodes} from "./entities/episode.entities";
 
 @Injectable()
 export class PodcastsService {
 
     private podcasts : Podcast[] = [];
+
+    /* Podcast Service 기본 영역 */
 
     GetAllPodCasts() : Podcast[] {
         return this.podcasts;
@@ -50,11 +53,47 @@ export class PodcastsService {
         return true;
     }
 
+    /* // Podcast Service 기본 영역 */
+
+
+    /* Podcast Episode Service 영역 */
+
+    GetPodCastEpisode(PodCastId: number): Episodes[] { //episode를 두번불러오는데 추후 재확인
+
+        this.GetPodCast(PodCastId); // 유효성 검증
+
+        const result =  this.podcasts.find(podcast => podcast.id === +PodCastId);
+        return result.episodes;
+
+    }
+
+    CreatePodCastEpisode(PodCastId, FormData) { //array 키값 숫자로 들어가는데 재확인
+        const result = this.GetPodCastEpisode(PodCastId);
+        return result.push({
+            ...FormData
+        });
+    }
+
+
+    UpdatePodCastEpisode(PodCastId : number, EpisodeId : number, FormData) {
+        const episode_result = this.GetPodCastEpisode(PodCastId);
+
+
+        this.DeletePodCast(PodCastId); // 원본 삭제
+
+        this.podcasts.push({...episode_result,...FormData});
+    }
+
+
+    DeletePodCastEpisode(PodCastId : number, EpisodeId : number) : boolean {
+        const rs = this.podcasts.find(podcast=> podcast.id ===PodCastId);
+
+        this.podcasts = this.podcasts.filter(podcast => podcast.id !== +PodCastId); // 현재 아이디를 제외한 모든 Array 재 생성후, 기존 Array에 덮어씀
+        return true;
+    }
 
 
 
-
-
-
+    /* //Podcast Episode Service 영역 */
 
 }
